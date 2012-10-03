@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#To install by hand do the following as root or with sudo Do not put the # at the beginning of the line:
+#cp src/talking-clock /usr/bin/talking-clock
+#cp src/bell.ogg /usr/share/talking-clock/bell.ogg
+#mkdir -p /usr/share/talking-clock/
+#cp README /usr/share/talking-clock/README
+
+#To install using this script:
+#chmod 700 INSTALL
+#then run by typing ./INSTALL as root or with sudo.
+cp src/talking-clock /usr/bin/talking-clock
+cp src/bell.ogg /usr/share/talking-clock/bell.ogg
+cp README /usr/share/talking-clock/README
+exit 0
+
