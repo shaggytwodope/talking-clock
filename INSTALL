@@ -9,7 +9,13 @@
 #To install using this script:
 #chmod 700 INSTALL
 #then run by typing ./INSTALL as root or with sudo.
+if [[ $(whoami) != "root" ]] ; then
+echo "Need to be root."
+exit 1
+fi
+
 cp src/talking-clock /usr/bin/talking-clock
+mkdir -p /usr/share/talking-clock/
 cp src/bell.ogg /usr/share/talking-clock/bell.ogg
 cp README /usr/share/talking-clock/README
 exit 0
