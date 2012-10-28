@@ -14,11 +14,11 @@ talking-clock --cron number
 where number is 1 for every hour, 2 for every half-hour, or four for every quarter-hour. Any other entry removes talking-clock settings from, causing talking-clock to not chime at all unless called specifically by you. The --cron switch only allows one argument, using multiple arguments will not work. If you use the --cron argument it must be the first argument follow by only one other argument.
 
 talking-clock understands the following arguments:
--a --audio Sound command. Command to play sound. the default is ogg123 -q. Another example, if you have sox installed would be
-play -q
+-a --audio Sound command. Command to play sound. the default is play -q provided by the sox package. Another example, if you have vorbis-tools installed would be
+ogg123 -q
 or
 paplay
-Note that with the default play command the aplay command is used for the pico voice. Aplay will not work for the rest of the commands because it does not play ogg files.
+Note that with the ogg123 command the aplay command is used for the pico voice. Aplay will not work for the rest of the commands because it does not play ogg files.
 -b --bell Set path to the sound used for hourly chimes.
 -c --nochime Turn off chimes.
 -n --nospeak turn off spoken time.
