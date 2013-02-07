@@ -219,6 +219,13 @@ if [ "$speakTime" == "true" ] ; then
         "festival")
             echo "$timeString" | festival --tts
         ;;
+        "flite")
+            #For some reason flite has trouble with ##:## format.
+            echo "$timeString" | flite
+        ;;
+        "flite_time")
+            flite_time $(date +'%H:%M') &> /dev/null
+        ;;
         "speech-dispatcher")
             spd-say -w -P important "$timeString"
         ;;

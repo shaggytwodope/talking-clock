@@ -26,9 +26,10 @@ Note that with the ogg123 command the aplay command is used for the pico voice. 
 -q --quarterhour Set the path to the sound for quarter-hour chimes.
 -s --soundpack Set path to soundpack. Sound packs should be in ogg format and contain 1.ogg, 2.ogg, ... 11.ogg, 12.ogg and 15.ogg, 30.ogg, and 45.ogg for the quarter-hour chimes.
 -v --voice Select voice. Default is espeak other options are
-cepstral, espeak, festival, pico, speech-dispatcher and custom.
+cepstral, espeak, festival, flite, flite_time pico, speech-dispatcher and custom.
 To set a custom voice enter the command as in:
 -v 'espeak -v en-us+klatt2'
+zipcode and flite_time are incompatable. If you have zipcode set the temperature will not be read while using flite_time.
 -z --zipcode Postal code: Will speak the temperature along with the time so long as you do not have nospeak set. E.G. -z 90210
 
 talking clock can also read settings from the following files?
