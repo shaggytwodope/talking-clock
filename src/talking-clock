@@ -61,13 +61,13 @@ hourChime="/usr/share/talking-clock/bell.ogg"
 #play chimes?
 chime="true"
 #command used to play sounds
-soundCommand="play -q"
+soundCommand="play -qV0"
 #default voice for speaking time is espeak
 voice="espeak"
 #should the time be spoken?
 speakTime="true"
 #Talking-clock version
-talkingClockVersion="5.6"
+talkingClockVersion="6.0"
 
 #Check for settings files in order of importants
 if [ -f "$HOME/.talking-clockrc" ] ; then
@@ -82,6 +82,11 @@ fi
 if [ -n "$confFile" ] ; then
     #use varCheck to test if the variable is set in the file
     #if it is, set it to the correct variable, if not use the default.
+    #check for 24 hour time format
+    varCheck="$(grep -i '^format=24' "$confFile")"
+    if [ -n "$varCheck" ] ; then
+        format="24"
+    fi
     #check for hour chime in file
     varCheck=$(grep -i '^bell=' "$confFile" | cut -d = -f 2)
     if [ -n "$varCheck" ] ; then
@@ -154,6 +159,17 @@ while [ $# -gt 0 ] ; do
                 exit 1
             fi
         ;;
+        "-f" | "--format")
+            shift
+            if [ "$1" == "12" -o "$1" == "24" ] ; then
+                if [ $1 -eq 24 ] ; then
+                    format="24"
+            fi
+            else
+                echo "Invalid time format: Valid options are 12 and 24."
+                exit 1
+            fi
+        ;;
         "-p" | "--prepend")
             shift
             if [ -f "$1" ] ; then
@@ -187,7 +203,7 @@ while [ $# -gt 0 ] ; do
             zipcode="$1"
         ;;
         *)
-            echo -e "Talking-clock version $talkingClockVersion\nTalking-clock accepts the following arguments:\n--cron number:\nIf you use --cron the only valid entry is a number following it. 1 will cause the clock to chime every hour, 2 every\nhalf-hour, 4 every quarter, and anything else will delete your existing settings if they exist.\n-a --audio Command for playing sound. The default is play -q provided from the sox package.\n-b --bell Set path to the sound used for hourly chimes.\n-c --nochime Turn off chimes.\n-n --nospeak turn off spoken time.\n-p --prepend Select a sound file to be played before chiming.\n-q --quarterhour Set the path to the sound for quarter-hour chimes.\n-s --soundpack Set path to soundpack. Sound packs should be in ogg format and contain 1.ogg, 2.ogg, ... 11.ogg, 12.ogg and\nquarter.ogg for the quarter-hour chime.\n-v --voice Select voice. Default is espeak other options are\ncepstral, espeak, festival, pico, speech-dispatcher and custom.\nTo set a custom voice enter the command as in:\n-v 'espeak -v en-us+klatt2'\n-z --zipcode postal code Used for current temperature, may not be available inn all areas.\nFor complete information read the README located at /usr/share/talking-clock/README"
+            echo -e "Talking-clock version $talkingClockVersion\nTalking-clock accepts the following arguments:\n--cron number:\nIf you use --cron the only valid entry is a number following it. 1 will cause the clock to chime every hour, 2 every\nhalf-hour, 4 every quarter, and anything else will delete your existing settings if they exist.\n-a --audio Command for playing sound. The default is play -q provided from the sox package.\n-b --bell Set path to the sound used for hourly chimes.\n-c --nochime Turn off chimes.\n-f --format: 12 or 24 hour format. Default is 12 hour time.\n-n --nospeak turn off spoken time.\n-p --prepend Select a sound file to be played before chiming.\n-q --quarterhour Set the path to the sound for quarter-hour chimes.\n-s --soundpack Set path to soundpack. Sound packs should be in ogg format and contain 1.ogg, 2.ogg, ... 11.ogg, 12.ogg and\nquarter.ogg for the quarter-hour chime.\n-v --voice Select voice. Default is espeak other options are\ncepstral, espeak, festival, pico, speech-dispatcher and custom.\nTo set a custom voice enter the command as in:\n-v 'espeak -v en-us+klatt2'\n-z --zipcode postal code Used for current temperature, may not be available inn all areas.\nFor complete information read the README located at /usr/share/talking-clock/README"
             exit 0
         esac
     shift
@@ -201,6 +217,11 @@ if [ "$speakTime" == "true" ] ; then
         timeString="$hour o $minute $timeOfDay"
     else
         timeString="$hour $minute $timeOfDay"
+    fi
+    #if 24 time is set, override the above with correct settings.
+    if [ -n "$format" ] ; then
+        #replace :0 with o so all synths read correctly.
+        timeString="$(date +'%H:%M' | sed 's/:0/ o /')"
     fi
     #Add temperature if zipcode is set
     if [ -n "$zipcode" ] ; then

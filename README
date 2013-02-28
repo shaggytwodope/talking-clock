@@ -1,4 +1,4 @@
-talking-clock Version 5.6
+talking-clock
 Written by Storm Dragon
 License GPL
 
@@ -39,6 +39,7 @@ Settings for individual users. If both files exist the user specific settings wi
 
 Configuration files should be written as command=setting. Here is an example of a configuration file:
 bell-/home/USER/hourbell.ogg
+format=24
 quarter=/home/USER/clocksounds/quarterhour.ogg
 sound=play -q
 prepend=/home/USER/big-ben.ogg
