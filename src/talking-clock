@@ -221,7 +221,7 @@ if [ "$speakTime" == "true" ] ; then
     #if 24 time is set, override the above with correct settings.
     if [ -n "$format" ] ; then
         #Make it read purdy for speech synthesizers.
-        timeString="$(date +'%H:%M' | sed -e 's/^00:00$/zero hundred hours/' -e 's/:00$/ hundred hours/' -e 's/:0/ o /' -e 's/^0[1-9].*/o \0/' -e 's/^o 0/o /')"
+        timeString="$(date +'%H:%M' | sed -e 's/^00:00$/zero hundred hours/' -e 's/:00$/ hundred hours/' -e 's/:0/ o /' -e 's/^0//')"
     fi
     #Add temperature if zipcode is set
     if [ -n "$zipcode" ] ; then
