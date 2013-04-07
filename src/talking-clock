@@ -108,7 +108,7 @@ if [ -n "$confFile" ] ; then
         soundCommand="$varCheck"
     fi
     #get the voice used to speak time
-    varCheck=$(grep -i '^voice=' "$confFile" | cut -d = -f 2)
+    varCheck=$(grep -i '^voice=' "$confFile" | cut -d = -f 2 | tr -d "&;<>\"|\$\)\(")
     if [ -n "$varCheck" ] ; then
         voice="$varCheck"
     fi
