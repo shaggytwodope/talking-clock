@@ -53,7 +53,7 @@ fi
 #initialize variables
 hour=$(date +'%-l')
 minute=$(date +'%-M')
-timeOfDay=$(date +'%p')
+timeOfDay=$(date +'%p' | sed 's/AM/A M/')
 #Default sound to play on half hour *:30
 quarterHourChime="/usr/share/talking-clock/bell.ogg"
 #Default sound to play on hours
