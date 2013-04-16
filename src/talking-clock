@@ -68,6 +68,8 @@ voice="espeak"
 speakTime="true"
 #Talking-clock version
 talkingClockVersion="6.0"
+#Safely create voice files for tts who write to file
+voiceFile="$(mktemp --tmpdir tlkclkXXXX.wav)"
 
 #Check for settings files in order of importants
 if [ -f "$HOME/.talking-clockrc" ] ; then
@@ -251,13 +253,14 @@ if [ "$speakTime" == "true" ] ; then
             spd-say -w -P important "$timeString"
         ;;
         "pico")
-            pico2wave -w /tmp/pico.wav "$timeString"
+            pico2wave -w $voiceFile "$timeString"
             #ogg123 doesn't do wav, so hopefully everyone has aplay...
             if [[ "$soundCommand" == "ogg123" || "$soundCommand" == "ogg123 -q" ]] ; then
-                aplay -q /tmp/pico.wav
+                aplay -q $voiceFile
             else
-                $soundCommand /tmp/pico.wav
+                $soundCommand $voiceFile
             fi
+            rm $voiceFile
         ;;
         *)
             $voice "$timeString"
