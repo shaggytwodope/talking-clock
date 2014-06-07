@@ -66,8 +66,6 @@ soundCommand="play -qV0"
 voice="espeak"
 #should the time be spoken?
 speakTime="true"
-#Talking-clock version
-talkingClockVersion="6.2"
 
 #Check for settings files in order of importants
 if [ -f "$HOME/.talking-clockrc" ] ; then
@@ -211,7 +209,7 @@ while [ $# -gt 0 ] ; do
             zipcode="$1"
         ;;
         *)
-            echo -e "Talking-clock version $talkingClockVersion\nTalking-clock accepts the following arguments:\n--cron number:\nIf you use --cron the only valid entry is a number following it. 1 will cause the clock to chime every hour, 2 every\nhalf-hour, 4 every quarter, and anything else will delete your existing settings if they exist.\n-a --audio Command for playing sound. The default is play -q provided from the sox package.\n-b --bell Set path to the sound used for hourly chimes.\n-c --nochime Turn off chimes.\n-f --format: 12 or 24 hour format. Default is 12 hour time.\n-n --nospeak turn off spoken time.\n-p --prepend Select a sound file to be played before chiming.\n-q --quarterhour Set the path to the sound for quarter-hour chimes.\n-s --soundpack Set path to soundpack. Sound packs should be in ogg format and contain 1.ogg, 2.ogg, ... 11.ogg, 12.ogg and\nquarter.ogg for the quarter-hour chime.\n-v --voice Select voice. Default is espeak other options are\ncepstral, espeak, festival, pico, speech-dispatcher and custom.\nTo set a custom voice enter the command as in:\n-v 'espeak -v en-us+klatt2'\n-z --zipcode postal code Used for current temperature, may not be available inn all areas.\nFor complete information read the README located at /usr/share/talking-clock/README"
+            echo -e "Talking-clock by Storm Dragon\nTalking-clock accepts the following arguments:\n--cron number:\nIf you use --cron the only valid entry is a number following it. 1 will cause the clock to chime every hour, 2 every\nhalf-hour, 4 every quarter, and anything else will delete your existing settings if they exist.\n-a --audio Command for playing sound. The default is play -q provided from the sox package.\n-b --bell Set path to the sound used for hourly chimes.\n-c --nochime Turn off chimes.\n-f --format: 12 or 24 hour format. Default is 12 hour time.\n-n --nospeak turn off spoken time.\n-p --prepend Select a sound file to be played before chiming.\n-q --quarterhour Set the path to the sound for quarter-hour chimes.\n-s --soundpack Set path to soundpack. Sound packs should be in ogg format and contain 1.ogg, 2.ogg, ... 11.ogg, 12.ogg and\nquarter.ogg for the quarter-hour chime.\n-v --voice Select voice. Default is espeak other options are\ncepstral, espeak, festival, pico, speech-dispatcher and custom.\nTo set a custom voice enter the command as in:\n-v 'espeak -v en-us+klatt2'\n-t --torify retrieve temperature anonymously using torify, used with -z --zipcode\n-z --zipcode postal code Used for current temperature, may not be available inn all areas.\nFor complete information read the README located at /usr/share/talking-clock/README"
             exit 0
         esac
     shift
