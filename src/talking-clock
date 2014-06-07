@@ -2,7 +2,7 @@
 
 #talking-clock written by Storm Dragon
 #project first created on Wednesday, March 23, 2011
-#license GPL
+#license WTFPL: http://wtfpl.net
 
 #Create or modify cron jobs
 if [ "$1" == "--cron" ] ; then
@@ -122,6 +122,11 @@ if [ -n "$confFile" ] ; then
     if [ -n "$varCheck" ] ; then
         soundPack="$varCheck"
     fi
+    #Check for tor mode
+    varCheck=$(grep -i '^torify=' "$confFile" | cut -d = -f 2)
+    if [ -n "$varCheck" ] ; then
+        torify="$varCheck"
+    fi
     #Check for no speech mode
     varCheck=$(grep -i '^speak=' "$confFile" | cut -d = -f 2)
     if [ -n "$varCheck" ] ; then
@@ -191,6 +196,9 @@ while [ $# -gt 0 ] ; do
         "-n" | "--nospeak")
             speakTime="false"
         ;;
+        "-t" | "--torify")
+            torify="true"
+        ;;
         "-c" | "--nochime")
             chime="false"
         ;;
@@ -229,9 +237,14 @@ if [ "$speakTime" == "true" ] ; then
     fi
     #Add temperature if zipcode is set
     if [ -n "$zipcode" ] ; then
-        temperature="$(curl -s "http://weather.yahooapis.com/forecastrss?p=${zipcode}&u=f" | grep -A 1 "Current Conditions:" | tr -d '[:alpha:][:space:][:punct:]')"
+       if [ "$torify" == "true" ] ; then 
+            temperature="$(torify curl -s "http://weather.yahooapis.com/forecastrss?p=${zipcode}&u=f" | grep -A 1 "Current Conditions:" | tr -Cd '[:digit:]-')"
+        else
+            temperature="$(curl -s "http://weather.yahooapis.com/forecastrss?p=${zipcode}&u=f" | grep -A 1 "Current Conditions:" | tr -Cd '[:digit:]-')"
+        fi
         if [ -n "$temperature" ] ; then
             timeString="$timeString $temperature degrees."
+            timeString="$(echo "$timeString" | sed -e 's/-/negative /')"
         fi
     fi
     case "$voice" in
